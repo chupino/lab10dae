@@ -6,7 +6,8 @@ class App extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      productos: []
+      productos: [],
+      recuperado: false
     }
     
 }
@@ -16,10 +17,10 @@ componentWillMount() {
       return response.json()
     })
     .then((prod) => {
-      this.setState({ productos: prod })
+      this.setState({ productos: prod,recuperado: true })
     })    
-} 
-render() {
+}
+mostrarTabla() {
   return (
     <div>
       <table border="1">
@@ -31,12 +32,12 @@ render() {
         </tr>
       </thead>
       <tbody>  
-        {this.state.productos.map(producto => {
+        {this.state.productos.map(prod => {
           return (
-            <tr key={producto.codigo}>
-              <td>{producto.codigo}</td>
-              <td>{producto.descripcion}</td>
-              <td>{producto.precio}</td>
+            <tr key={ prod.codigo}>
+              <td>{ prod.codigo}</td>
+              <td>{ prod.descripcion}</td>
+              <td>{ prod.precio}</td>
             </tr>
           );
         })}
@@ -45,6 +46,14 @@ render() {
     </div>
   );
 }
+
+render() {
+  if (this.state.recuperado)
+    return this.mostrarTabla()
+  else
+    return (<div>recuperando datos...</div>)
+}
+
 
 }
 /* function App(){
