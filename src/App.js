@@ -1,6 +1,7 @@
-import logo from './logo.svg';
+
 import './App.css';
-import React, {Component} from 'react';
+import React, {Component,useState} from 'react';
+import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, TablePagination, Paper } from '@mui/material';
 
 class App extends Component{
   constructor(props) {
@@ -11,6 +12,7 @@ class App extends Component{
     }
     
 }
+
 componentWillMount() {
   fetch('http://localhost:8000/api/producto/')
     .then((response) => {
@@ -23,26 +25,27 @@ componentWillMount() {
 mostrarTabla() {
   return (
     <div>
-      <table border="1">
-      <thead>
-        <tr>
-          <th>Código</th>
-          <th>Descripción</th>
-          <th>Precio</th>                    
-        </tr>
-      </thead>
-      <tbody>  
-        {this.state.productos.map(prod => {
-          return (
-            <tr key={ prod.codigo}>
-              <td>{ prod.codigo}</td>
-              <td>{ prod.descripcion}</td>
-              <td>{ prod.precio}</td>
-            </tr>
-          );
-        })}
-      </tbody>
-      </table>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Codigo</TableCell>
+              <TableCell>Descripción</TableCell>
+              <TableCell>Precio</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {this.state.productos.map((row) => (
+              <TableRow key={row.codigo}>
+                <TableCell>{row.codigo}</TableCell>
+                <TableCell>{row.descripcion}</TableCell>
+                <TableCell>{row.precio}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
     </div>
   );
 }
@@ -56,27 +59,39 @@ render() {
 
 
 }
-/* function App(){
-  
+function MaterialUITable() {
+  const rows = [
+    { id: 1, name: 'John Doe', email: 'johndoe@example.com' },
+    { id: 2, name: 'Jane Smith', email: 'janesmith@example.com' },
+  ];
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Email</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRow key={row.id}>
+                <TableCell>{row.id}</TableCell>
+                <TableCell>{row.name}</TableCell>
+                <TableCell>{row.email}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
     </div>
   );
-  
-} */
+}
+export default MaterialUITable;
 
-export default App;
+
